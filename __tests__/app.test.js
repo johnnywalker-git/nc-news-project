@@ -19,7 +19,7 @@ describe("GET API/topics", () => {
         .get("/api/topics")
         .expect(200)
         .then(({body}) => {
-            expect(body.length > 0).toBe(true)
+            expect(body.length === 3).toBe(true)
                 body.forEach((treasure) => {
                 expect(treasure).toHaveProperty("slug")
                 expect(treasure).toHaveProperty("description")

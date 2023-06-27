@@ -7,5 +7,4 @@ exports.getAllTopics = (req,res) => {
     readAllTopics().then((topics) => {
         res.status(200).send(topics.topics)
     })
-   
 }
