@@ -27,3 +27,38 @@ describe("GET API/topics", () => {
         })
     })
 })
+describe("GET API/articles/:article_id", () => {
+  test("Returns an object with the specified ID.", () => {
+    return request(app)
+    .get("/api/articles/2")
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toHaveProperty("author")
+      expect(body).toHaveProperty("title")
+      expect(body).toHaveProperty("article_id")
+      expect(body).toHaveProperty("body")
+      expect(body).toHaveProperty("topic")
+      expect(body).toHaveProperty("created_at")
+      expect(body).toHaveProperty("votes")
+      expect(body).toHaveProperty("article_img_url")
+    })
+  })
+  test("Returns an error if nothing at the provided ID", () => {
+    return request(app)
+    .get("/api/articles/5976")
+    .expect(404)
+    .then(({body}) => {
+      console.log(body)
+      expect(body.msg).toBe("Not Found")
+    })
+  })
+  test("Returns an error if nothing at the provided ID", () => {
+    return request(app)
+    .get("/api/articles/5976")
+    .expect(404)
+    .then(({body}) => {
+      console.log(body)
+      expect(body.msg).toBe("Not Found")
+    })
+  })
+})
