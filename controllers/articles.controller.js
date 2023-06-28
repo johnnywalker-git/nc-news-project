@@ -1,9 +1,14 @@
-const { readArticle } = require("../models/articles.model")
+const { readArticle, fetchArticles } = require("../models/articles.model")
 
 exports.getArticle = (req, res, next) => {
-
    readArticle(req.params)
    .then((article) => {
    res.status(200).send(article)
    }).catch(next)
+}
+
+exports.getAllArticles = (req, res, next) => {
+   fetchArticles().then((data) => {
+      res.status(200).send(data.allArticles)
+   })
 }
