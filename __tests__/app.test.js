@@ -29,7 +29,7 @@ describe("GET API/topics", () => {
     })
 })
 describe("GET /api", () => {
-    test.only("Returns an object describing all the available endpoints on the API", () => {
+    test("Returns an object describing all the available endpoints on the API", () => {
         return request(app)
         .get("/api")
         .expect(200)
