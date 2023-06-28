@@ -36,7 +36,7 @@ describe("GET /api", () => {
       .then(({body}) => {
         expect(body).toEqual(endPoints)
       })
-})
+  })
 })
 describe("GET API/articles/:article_id", () => {
   test("Returns an object with the specified keys.", () => {
@@ -79,3 +79,4 @@ describe("GET API/articles/:article_id", () => {
     })
   })
 })
+
