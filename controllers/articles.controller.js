@@ -4,6 +4,6 @@ exports.getArticle = (req, res, next) => {
 
    readArticle(req.params)
    .then((article) => {
-   res.status(200).send(article.finishedArticle)
+   res.status(200).send(article)
    }).catch(next)
 }

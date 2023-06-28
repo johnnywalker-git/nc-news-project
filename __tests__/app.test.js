@@ -28,19 +28,27 @@ describe("GET API/topics", () => {
     })
 })
 describe("GET API/articles/:article_id", () => {
-  test("Returns an object with the specified ID.", () => {
+  test("Returns an object with the specified keys.", () => {
     return request(app)
     .get("/api/articles/2")
     .expect(200)
     .then(({body}) => {
-      expect(body).toHaveProperty("author")
-      expect(body).toHaveProperty("title")
-      expect(body).toHaveProperty("article_id")
-      expect(body).toHaveProperty("body")
-      expect(body).toHaveProperty("topic")
-      expect(body).toHaveProperty("created_at")
-      expect(body).toHaveProperty("votes")
-      expect(body).toHaveProperty("article_img_url")
+      expect(body.finishedArticle).toHaveProperty("author")
+      expect(body.finishedArticle).toHaveProperty("title")
+      expect(body.finishedArticle).toHaveProperty("article_id")
+      expect(body.finishedArticle).toHaveProperty("body")
+      expect(body.finishedArticle).toHaveProperty("topic")
+      expect(body.finishedArticle).toHaveProperty("created_at")
+      expect(body.finishedArticle).toHaveProperty("votes")
+      expect(body.finishedArticle).toHaveProperty("article_img_url")
+    })
+  })
+  test("Returns an object with the specified item ID.", () => {
+    return request(app)
+    .get("/api/articles/1")
+    .expect(200)
+    .then(({body}) => {
+      expect(body.finishedArticle.article_id).toBe(1)
     })
   })
   test("Returns an error if nothing at the provided ID", () => {
@@ -48,17 +56,15 @@ describe("GET API/articles/:article_id", () => {
     .get("/api/articles/5976")
     .expect(404)
     .then(({body}) => {
-      console.log(body)
       expect(body.msg).toBe("Not Found")
     })
   })
-  test("Returns an error if nothing at the provided ID", () => {
+  test("Returns an error if given a bad ID.", () => {
     return request(app)
-    .get("/api/articles/5976")
-    .expect(404)
+    .get("/api/articles/ABCD")
+    .expect(400)
     .then(({body}) => {
-      console.log(body)
-      expect(body.msg).toBe("Not Found")
+      expect(body.msg).toBe("Bad request")
     })
   })
 })
