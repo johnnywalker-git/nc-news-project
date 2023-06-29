@@ -14,3 +14,15 @@ exports.readArticle = (article) => {
         return{"finishedArticle" : currentArticle}
     })
 }
+
+exports.findComment = (article) => {   
+    return db.query
+    (`SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC;`, [article])
+    .then(({rows}) => {
+       return{"comments" : rows}
+    })
+
+
+
+
+}

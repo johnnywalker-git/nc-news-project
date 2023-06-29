@@ -4,6 +4,9 @@ const request = require('supertest')
 const db = require("../db/connection")
 const testData = require("../db/data/test-data/index")
 const endPoints = require("../endpoints.json")
+const jestSorted = require('jest-sorted')
+
+
 
 
 beforeEach(() => {
@@ -79,4 +82,40 @@ describe("GET API/articles/:article_id", () => {
     })
   })
 })
+describe("/api/articles/:article_id/comments", () => {
+    test("Receives an object length more than one.", () => {
+    return request(app)
+    .get("/api/articles/9/comments")
+    .expect(200)
+    .then(({body}) => {
+      expect(body.length > 0).toBe(true)
+  })
+})
+    test("Receives an array of objects with the correct properties.", () => {
+    return request(app)
+    .get("/api/articles/9/comments")
+    .expect(200)
+    .then(({body}) => {
+    expect(body.length > 0).toBe(true)
+    body.forEach((comment) => {
+      expect(comment).toHaveProperty("comment_id")
+      expect(comment).toHaveProperty("votes")
+      expect(comment).toHaveProperty("created_at")
+      expect(comment).toHaveProperty("author")
+      expect(comment).toHaveProperty("body")
+      expect(comment).toHaveProperty("article_id")
+      })
+   })
+})
+    // test("Comment objects are ordered with the most recent comments first.", () => {
+    //   return request(app)
+    //   .get("/api/articles/9/comments")
+    //   .expect(200)
+    //   .then(({body}) => {
+    //     expect([body[0].created_at, [body[1].created_at]]).toBeSorted({ descending: true})
+    //   })
+    // })
+
+})
+
 
