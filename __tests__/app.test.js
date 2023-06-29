@@ -123,4 +123,12 @@ describe("Ticket 5.", () => {
       })
     })
   })
+  // describe("Article should be returned with votes property updated by the specified amount in the GET request.", () => {
+  //   return request(app)
+  //   .get("/api/articles/1")
+  //   .expect(200)
+  //   .then(({body}) => {
+  //     expect(body.article.votes).toBe(101)
+  //   })
+  // })
  
