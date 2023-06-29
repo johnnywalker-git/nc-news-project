@@ -19,6 +19,11 @@ exports.findComment = (article) => {
     return db.query
     (`SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC;`, [article])
     .then(({rows}) => {
+        const articleComms = rows[0]
+        if(!articleComms) {
+            return Promise.reject(err)
+        }
+        else
        return{"comments" : rows}
     })
 }

@@ -83,14 +83,6 @@ describe("GET API/articles/:article_id", () => {
   })
 })
 describe("/api/articles/:article_id/comments", () => {
-    test("Receives an object length more than one.", () => {
-    return request(app)
-    .get("/api/articles/9/comments")
-    .expect(200)
-    .then(({body}) => {
-      expect(body.length > 0).toBe(true)
-  })
-})
     test("Receives an array of objects with the correct properties.", () => {
     return request(app)
     .get("/api/articles/9/comments")
@@ -106,7 +98,7 @@ describe("/api/articles/:article_id/comments", () => {
       expect(comment).toHaveProperty("article_id")
       })
    })
-})
+  })
     test("Comment objects are ordered with the most recent comments first.", () => {
       return request(app)
       .get("/api/articles/9/comments")
@@ -115,7 +107,22 @@ describe("/api/articles/:article_id/comments", () => {
         expect([body[1].created_at, body[0].created_at]).toBeSorted({ descending: true })
       })
     })
-
-})
+    test("Should return 404 when given invalid article ref (not a num).", () => {
+      return request(app)
+      .get("/api/articles/Banana/comments")
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("Bad request")
+      })
+    })
+    test("Should return 404 when given invalid article number.", () => {
+      return request(app)
+      .get("/api/articles/40506070/comments")
+      .expect(404)
+      .then(({body}) => {
+       expect(body.msg).toBe("Not Found")
+      })
+    })
+  })
 
 

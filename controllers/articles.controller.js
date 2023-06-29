@@ -7,9 +7,9 @@ exports.getArticle = (req, res, next) => {
    }).catch(next)
 }
 
-exports.getArticleComments = (req, res, next,) => {
+exports.getArticleComments = (req, res, next) => {
    const articleId = req.params.article_id
    findComment(articleId).then((data) => {
       res.status(200).send(data.comments)
-   })
+   }).catch(next)
 }
