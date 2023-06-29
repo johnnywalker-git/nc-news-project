@@ -16,17 +16,12 @@ exports.readArticle = (article) => {
 }
 
 exports.fetchArticles = () => {
-    return db.query
-    (` ALTER TABLE articles ADD COLUMN comments_count INT DEFAULT 0 NOT NULL;`)
-    .then(() => {
         return db.query
-   (`UPDATE articles SET comments_count = (SELECT COUNT(*) FROM comments WHERE comments.article_id = articles.article_id);`)
-    })
-    .then(() => {
-        return db.query
-   (`SELECT author,title,article_id,topic,created_at,votes,article_img_url,comments_count FROM articles ORDER BY created_at DESC;`)
-    })
+   (`SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id  = articles.article_id GROUP BY articles.article_id  ORDER BY created_at DESC`)
     .then(({rows}) => {
-    return{"allArticles": rows}
+        rows.forEach((row) => {
+            delete(row.body)
+        })
+        return{"allArticles": rows}
    })
 }

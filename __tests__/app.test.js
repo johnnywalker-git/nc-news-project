@@ -94,7 +94,7 @@ describe("Ticket 5.", () => {
         expect(article).toHaveProperty("created_at")
         expect(article).toHaveProperty("votes")
         expect(article).toHaveProperty("article_img_url")
-        expect(article).toHaveProperty("comments_count")
+        expect(article).toHaveProperty("comment_count")
         expect(article).not.toHaveProperty("body")
       })
     })
