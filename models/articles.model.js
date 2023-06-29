@@ -21,8 +21,4 @@ exports.findComment = (article) => {
     .then(({rows}) => {
        return{"comments" : rows}
     })
-
-
-
-
 }

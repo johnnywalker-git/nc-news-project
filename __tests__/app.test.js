@@ -107,14 +107,14 @@ describe("/api/articles/:article_id/comments", () => {
       })
    })
 })
-    // test("Comment objects are ordered with the most recent comments first.", () => {
-    //   return request(app)
-    //   .get("/api/articles/9/comments")
-    //   .expect(200)
-    //   .then(({body}) => {
-    //     expect([body[0].created_at, [body[1].created_at]]).toBeSorted({ descending: true})
-    //   })
-    // })
+    test("Comment objects are ordered with the most recent comments first.", () => {
+      return request(app)
+      .get("/api/articles/9/comments")
+      .expect(200)
+      .then(({body}) => {
+        expect([body[1].created_at, body[0].created_at]).toBeSorted({ descending: true })
+      })
+    })
 
 })
 
