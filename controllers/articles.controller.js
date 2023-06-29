@@ -12,3 +12,7 @@ exports.getAllArticles = (req, res, next) => {
       res.status(200).send(data.allArticles)
    })
 }
+
+exports.addComment = (res, req, next) => {
+   
+}
