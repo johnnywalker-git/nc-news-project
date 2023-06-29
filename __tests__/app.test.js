@@ -108,4 +108,19 @@ describe("Ticket 5.", () => {
     })
   })
 })
+  describe("Ticket 10; getAllUsers" , () => {
+    test("Each item in the object array should have the specified properties.", () => {
+      return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({body}) => {
+        expect(body.users.length > 0).toBe(true)
+        body.users.forEach((user) => {
+          expect(user).toHaveProperty("username")
+          expect(user).toHaveProperty("name")
+          expect(user).toHaveProperty("avatar_url")
+        })
+      })
+    })
+  })
  
