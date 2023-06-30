@@ -123,12 +123,27 @@ describe("Ticket 5.", () => {
       })
     })
   })
-  // describe("Article should be returned with votes property updated by the specified amount in the GET request.", () => {
-  //   return request(app)
-  //   .get("/api/articles/1")
-  //   .expect(200)
-  //   .then(({body}) => {
-  //     expect(body.article.votes).toBe(101)
-  //   })
-  // })
+  describe("Update votes", () => {
+    test("Article should be returned with votes property updated by the specified amount in the GET request.", () => {
+    return request(app)
+    .patch("/api/articles/1")
+    .send({ "inc_votes" : 1 })
+    .expect(200)
+    .then(({body}) => {
+      expect(body.newArticle[0].votes).toBe(101)
+    })
+  })
+  test("Article should respond with the correct error when passed an invalid article ID", () => {
+    return request(app)
+    .patch("/api/articles/43492")
+    .send({ "inc_votes" : 7 })
+    .expect(404)
+  })
+  test("Article should respond with the correct error when passed an invalid article ID TYPE", () => {
+    return request(app)
+    .patch("/api/articles/abcde")
+    .send({ "inc_votes" : 14 })
+    .expect(400)
+  })
+})
  

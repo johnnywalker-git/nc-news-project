@@ -25,3 +25,15 @@ exports.fetchArticles = () => {
         return{"allArticles": rows}
    })
 }
+
+exports.updateVotes = (article, voteIncrement) => {
+       return db.query(`UPDATE articles SET votes = VOTES + $2 WHERE article_id = $1 RETURNING *`,[article.article_id, voteIncrement.inc_votes])
+       .then(({rows}) => {
+        const currentArticle = rows[0]
+        if(!currentArticle){
+            return Promise.reject(err)
+        }
+        else
+        return({"newArticle" : rows})
+       })
+}
