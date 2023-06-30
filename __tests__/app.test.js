@@ -196,5 +196,22 @@ describe("Ticket 5.", () => {
     .expect(400)
   })
 })
+describe("Ticket 9  - delete comments", () => {
+  test("Should return status 204", () => {
+    return request(app)
+    .delete("/api/comments/2")
+    .expect(204)
+  })
+  test("Should return correct error when passed an invalid comment ID", () => {
+    return request(app)
+    .delete("/api/comments/2486462")
+    .expect(404)
+  })
+  test("Should return correct error when passed an invalid comment ID thats a string", () => {
+    return request(app)
+    .delete("/api/comments/abcde")
+    .expect(400)
+  })
+})
  
 

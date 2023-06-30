@@ -4,6 +4,7 @@ const { getAllEndpoints } = require('./controllers/endPoints.controller')
 const { getArticle, getAllArticles, addComment, updateArticleVotes, getArticleComments } = require("./controllers/articles.controller")
 
 const { getAllUsers } = require('./controllers/users.controller')
+const { deleteComment } = require('./controllers/comments.controller')
 
 const app = express()
 
@@ -22,6 +23,8 @@ app.get("/api/articles", getAllArticles)
 app.get("/api/users", getAllUsers)
 
 app.patch("/api/articles/:article_id", updateArticleVotes)
+
+app.delete("/api/comments/:comment_id", deleteComment)
 
 app.use((err, req, res, next) => {
     if(err.code === "22P02")
