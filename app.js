@@ -23,6 +23,8 @@ app.get("/api/users", getAllUsers)
 
 app.patch("/api/articles/:article_id", updateArticleVotes)
 
+app.post("/api/articles/:article_id/comments", addComment)
+
 app.use((err, req, res, next) => {
     if(err.code === "22P02")
     {
