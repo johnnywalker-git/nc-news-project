@@ -130,14 +130,14 @@ describe("Ticket 5.", () => {
     .send({ "inc_votes" : 1 })
     .expect(200)
     .then(({body}) => {
-      expect(body.newArticle[0].votes).toBe(101)
+      expect(body.article.newArticle[0].votes).toBe(101)
     })
   })
-  test("Article should respond with the correct error when passed an invalid article ID", () => {
+  test("Should return an error when passed an invalid object", () => {
     return request(app)
     .patch("/api/articles/43492")
-    .send({ "inc_votes" : 7 })
-    .expect(404)
+    .send({ "inc_votes" : "abc"})
+    .expect(400)
   })
   test("Article should respond with the correct error when passed an invalid article ID TYPE", () => {
     return request(app)

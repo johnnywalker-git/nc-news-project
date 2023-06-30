@@ -18,7 +18,7 @@ exports.updateArticleVotes = (req, res, next) => {
    const VoteAmount = req.body
    updateVotes(articleNo, VoteAmount)
    .then((article) => {
-      res.status(200).send(article)
+      res.status(200).send({article})
    }).catch(next)
 }
 
