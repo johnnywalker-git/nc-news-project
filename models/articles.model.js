@@ -15,6 +15,18 @@ exports.readArticle = (article) => {
     })
 }
 
+exports.findComment = (article) => {   
+    return db.query
+    (`SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC;`, [article])
+    .then(({rows}) => {
+        const articleComms = rows[0]
+        if(!articleComms) {
+            return Promise.reject(err)
+        }
+        else
+       return{"comments" : rows}
+    })
+
 exports.fetchArticles = () => {
         return db.query
    (`SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id  = articles.article_id GROUP BY articles.article_id  ORDER BY created_at DESC`)
