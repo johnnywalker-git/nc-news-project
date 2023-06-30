@@ -105,7 +105,7 @@ describe("/api/articles/:article_id/comments", () => {
         expect([body[1].created_at, body[0].created_at]).toBeSorted({ descending: true })
       })
     })
-    test("Should return 404 when given invalid article ref (not a num).", () => {
+    test("Should return 400 when given invalid article ref (not a num).", () => {
       return request(app)
       .get("/api/articles/Banana/comments")
       .expect(400)
@@ -122,8 +122,6 @@ describe("/api/articles/:article_id/comments", () => {
       })
     })
   })
-
-
 
 describe("Ticket 5.", () => {
   test("Returned array objects should have each of the specified properties only.", () => {

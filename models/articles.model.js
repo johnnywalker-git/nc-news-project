@@ -25,7 +25,7 @@ exports.findComment = (article) => {
         }
         else
        return{"comments" : rows}
-    })
+    })}
 
 exports.fetchArticles = () => {
         return db.query
