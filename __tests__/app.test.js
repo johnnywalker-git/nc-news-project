@@ -201,6 +201,9 @@ describe("Ticket 9  - delete comments", () => {
     return request(app)
     .delete("/api/comments/2")
     .expect(204)
+    .then(({body}) => {
+      expect(body).toEqual({})
+    })
   })
   test("Should return correct error when passed an invalid comment ID", () => {
     return request(app)
