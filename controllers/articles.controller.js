@@ -1,4 +1,5 @@
-const { readArticle, findComment } = require("../models/articles.model")
+const { readArticle, findComment, fetchArticles } = require("../models/articles.model")
+
 
 exports.getArticle = (req, res, next) => {
    readArticle(req.params)
@@ -12,4 +13,13 @@ exports.getArticleComments = (req, res, next) => {
    findComment(articleId).then((data) => {
       res.status(200).send(data.comments)
    }).catch(next)
+}
+exports.getAllArticles = (req, res, next) => {
+   fetchArticles().then((data) => {
+      res.status(200).send(data.allArticles)
+   })
+}
+
+exports.addComment = (res, req, next) => {
+   
 }

@@ -26,4 +26,14 @@ exports.findComment = (article) => {
         else
        return{"comments" : rows}
     })
+
+exports.fetchArticles = () => {
+        return db.query
+   (`SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id  = articles.article_id GROUP BY articles.article_id  ORDER BY created_at DESC`)
+    .then(({rows}) => {
+        rows.forEach((row) => {
+            delete(row.body)
+        })
+        return{"allArticles": rows}
+   })
 }

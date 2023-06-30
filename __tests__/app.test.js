@@ -6,9 +6,6 @@ const testData = require("../db/data/test-data/index")
 const endPoints = require("../endpoints.json")
 const jestSorted = require('jest-sorted')
 
-
-
-
 beforeEach(() => {
     return seed(testData)
     });
@@ -82,6 +79,7 @@ describe("GET API/articles/:article_id", () => {
     })
   })
 })
+
 describe("/api/articles/:article_id/comments", () => {
     test("Receives an array of objects with the correct properties.", () => {
     return request(app)
@@ -125,4 +123,51 @@ describe("/api/articles/:article_id/comments", () => {
     })
   })
 
+
+
+describe("Ticket 5.", () => {
+  test("Returned array objects should have each of the specified properties only.", () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({body}) => {
+    expect(body.length > 0).toBe(true)
+      body.forEach((article) => {
+        expect(article).toHaveProperty("author")
+        expect(article).toHaveProperty("title")
+        expect(article).toHaveProperty("article_id")
+        expect(article).toHaveProperty("topic")
+        expect(article).toHaveProperty("created_at")
+        expect(article).toHaveProperty("votes")
+        expect(article).toHaveProperty("article_img_url")
+        expect(article).toHaveProperty("comment_count")
+        expect(article).not.toHaveProperty("body")
+      })
+    })
+  })
+  test("200: First item in returned array should be the the least recent article" ,() => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({body}) => {
+      expect([body[0].created_at, body[1].created_at]).toBeSorted({ descending: true })
+    })
+  })
+})
+  describe("Ticket 10; getAllUsers" , () => {
+    test("Each item in the object array should have the specified properties.", () => {
+      return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({body}) => {
+        expect(body.users.length > 0).toBe(true)
+        body.users.forEach((user) => {
+          expect(user).toHaveProperty("username")
+          expect(user).toHaveProperty("name")
+          expect(user).toHaveProperty("avatar_url")
+        })
+      })
+    })
+  })
+ 
 
