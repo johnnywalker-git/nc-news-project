@@ -183,6 +183,12 @@ describe("Ticket 5.", () => {
     .send({ "inc_votes" : "abc"})
     .expect(400)
   })
+  test("Should return an error when passed an invalid article ID", () => {
+    return request(app)
+    .patch("/api/articles/43492")
+    .send({ "inc_votes" : 7})
+    .expect(404)
+  })
   test("Article should respond with the correct error when passed an invalid article ID TYPE", () => {
     return request(app)
     .patch("/api/articles/abcde")
