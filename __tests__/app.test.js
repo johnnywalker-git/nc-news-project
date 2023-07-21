@@ -234,6 +234,7 @@ describe("Ticket 7, add comments", () => {
     .post("/api/articles/2/comments")
     .send({"user" : "Test", "body" : "test comment"})
     .expect(404)
+  })
 describe("Ticket 9  - delete comments", () => {
   test("Should return status 204", () => {
     return request(app)
@@ -254,5 +255,5 @@ describe("Ticket 9  - delete comments", () => {
     .expect(400)
   })
 })
- 
+})
 
