@@ -196,6 +196,44 @@ describe("Ticket 5.", () => {
     .expect(400)
   })
 })
+describe("Ticket 7, add comments", () => {
+  test("Adds a new comment onto the specified article.", () => {
+    return request(app)
+    .post("/api/articles/2/comments")
+    .send({"username" : "butter_bridge", "body" : "test comment"})
+    .expect(200)
+    .then(({body}) => {
+      expect(body.comment[0].author).toBe("butter_bridge")
+    })
+  })
+  test("Returns a comment object with the correct properties." ,() => {
+    return request(app)
+    .post("/api/articles/2/comments")
+    .send({"username" : "butter_bridge", "body" : "test comment"})
+    .expect(200)
+    .then(({body}) => {
+      expect(body.comment.length > 0).toBe(true)
+      body.comment.forEach((comment) => {
+        expect(comment).toHaveProperty("comment_id")
+        expect(comment).toHaveProperty("body")
+        expect(comment).toHaveProperty("votes")
+        expect(comment).toHaveProperty("author")
+        expect(comment).toHaveProperty("article_id")
+        expect(comment).toHaveProperty("created_at")
+      })
+    })
+  })
+  test("Error if no body or username given.", () => {
+    return request(app)
+    .post("/api/articles/2/comments")
+    .send({"username" : "", "body" : "test comment"})
+    .expect(404)
+  })
+  test("Error if username given but doesn't exist.", () => {
+    return request(app)
+    .post("/api/articles/2/comments")
+    .send({"user" : "Test", "body" : "test comment"})
+    .expect(404)
 describe("Ticket 9  - delete comments", () => {
   test("Should return status 204", () => {
     return request(app)

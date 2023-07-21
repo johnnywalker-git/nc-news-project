@@ -49,3 +49,16 @@ exports.updateVotes = (article, voteIncrement) => {
         return({"newArticle" : rows})
        })
 }
+exports.addUserComment = (username,body,article_id) => {
+      return db.query(`
+      INSERT INTO comments
+      (body,author,article_id)
+      VALUES
+      ($1, $2, $3) RETURNING *;`, [body,username,article_id])
+      .then(({rows}) => {
+        if(!body || !username) {
+            Promise.reject({status: 404, msg :"Bad request"})
+        }
+        return{"comment" : rows}
+      })
+}

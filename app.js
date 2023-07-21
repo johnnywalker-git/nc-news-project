@@ -26,6 +26,8 @@ app.get("/api/users", getAllUsers)
 
 app.patch("/api/articles/:article_id", updateArticleVotes)
 
+app.post("/api/articles/:article_id/comments", addComment)
+
 app.delete("/api/comments/:comment_id", deleteComment)
 
 app.use((err, req, res, next) => {

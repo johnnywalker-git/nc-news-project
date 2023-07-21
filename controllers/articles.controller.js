@@ -1,4 +1,4 @@
-const { readArticle, fetchArticles, updateVotes, findComment } = require("../models/articles.model")
+const { readArticle, fetchArticles, updateVotes, findComment, addUserComment } = require("../models/articles.model")
 
 
 exports.getArticle = (req, res, next) => {
@@ -29,6 +29,11 @@ exports.updateArticleVotes = (req, res, next) => {
    }).catch(next)
 }
 
-exports.addComment = (res, req, next) => {
-   
+exports.addComment = (req, res, next) => {
+   const { username, body } = req.body
+   const { article_id } = req.params
+   addUserComment(username,body,article_id)
+   .then((body) => {
+      res.status(200).send(body)
+   }).catch(next)
 }
