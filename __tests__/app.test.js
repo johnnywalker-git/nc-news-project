@@ -234,6 +234,24 @@ describe("Ticket 7, add comments", () => {
     .post("/api/articles/2/comments")
     .send({"user" : "Test", "body" : "test comment"})
     .expect(404)
+describe("Ticket 9  - delete comments", () => {
+  test("Should return status 204", () => {
+    return request(app)
+    .delete("/api/comments/2")
+    .expect(204)
+    .then(({body}) => {
+      expect(body).toEqual({})
+    })
+  })
+  test("Should return correct error when passed an invalid comment ID", () => {
+    return request(app)
+    .delete("/api/comments/2486462")
+    .expect(404)
+  })
+  test("Should return correct error when passed an invalid comment ID thats a string", () => {
+    return request(app)
+    .delete("/api/comments/abcde")
+    .expect(400)
   })
 })
  

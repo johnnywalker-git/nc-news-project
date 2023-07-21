@@ -2,10 +2,13 @@ const express = require('express')
 const { getAllTopics } = require('./controllers/topics.controller')
 const { getAllEndpoints } = require('./controllers/endPoints.controller')
 const { getArticle, getAllArticles, addComment, updateArticleVotes, getArticleComments } = require("./controllers/articles.controller")
-
+const cors = require('cors');
 const { getAllUsers } = require('./controllers/users.controller')
+const { deleteComment } = require('./controllers/comments.controller')
 
-const app = express()
+const app = express();
+
+app.use(cors());
 
 app.use(express.json())
 
@@ -24,6 +27,8 @@ app.get("/api/users", getAllUsers)
 app.patch("/api/articles/:article_id", updateArticleVotes)
 
 app.post("/api/articles/:article_id/comments", addComment)
+
+app.delete("/api/comments/:comment_id", deleteComment)
 
 app.use((err, req, res, next) => {
     if(err.code === "22P02")
