@@ -1,3 +1,4 @@
+const { query } = require("express")
 const db = require("../db/connection")
 
 
@@ -27,16 +28,84 @@ exports.findComment = (article) => {
        return{"comments" : rows}
     })}
 
-exports.fetchArticles = () => {
-        return db.query
-   (`SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id  = articles.article_id GROUP BY articles.article_id  ORDER BY created_at DESC`)
-    .then(({rows}) => {
+// exports.fetchArticles = (queryParams) => {
+//     const { topic, sort_by = 'created_at', order = 'desc' } = queryParams;
+//     let query = `SELECT articles.*, COUNT(comment_id) AS comment_count
+//     FROM articles
+//     LEFT JOIN comments ON comments.article_id = articles.article_id`
+//     const values = []
+//     if(topic) {
+//         query += 'WHERE topic = $1'
+//         values.push(topic)
+//     }
+//     query += `
+//         GROUP BY articles.article_id
+//         ORDER BY ${sort_by} ${order}
+//     `
+//     return db.query(query, values)
+//     .then(({rows}) => {
+//         console.log(rows)
+//         rows.forEach((row) => {
+//             delete(row.body)
+//         })
+//         return{allArticles : rows}
+//    }).catch((error) => {
+//     throw error
+//    })
+// }
+
+// exports.fetchArticles = (queryParams) => {
+//     console.log('Received query parameters:', queryParams);
+//     const params = queryParams;    
+//     return db.query
+// (`SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id  = articles.article_id GROUP BY articles.article_id  ORDER BY created_at DESC`)
+// .then(({rows}) => {
+//     rows.forEach((row) => {
+//         delete(row.body)
+//     })
+//     return{"allArticles": rows}
+//         })
+// } 
+
+
+exports.fetchArticles = (queryParams) => {
+    const { topic, sort_by = 'created_at', order = 'desc' } = queryParams;
+  
+    // Start building the SQL query
+    let query = `SELECT articles.*, COUNT(comment_id) AS comment_count FROM articles`;
+  
+    const values = [];
+  
+    // Add the LEFT JOIN with comments
+    query += `
+      LEFT JOIN comments ON comments.article_id = articles.article_id
+    `;
+  
+    // Add a WHERE clause if the topic parameter is provided
+    if (topic) {
+      query += 'WHERE topic = $1';
+      values.push(topic);
+    }
+  
+    // Complete the SQL query with GROUP BY and ORDER BY clauses
+    query += `
+      GROUP BY articles.article_id
+      ORDER BY ${sort_by} ${order}
+    `;
+  
+    return db.query(query, values)
+      .then(({ rows }) => {
+        // Remove the 'body' property from each article
         rows.forEach((row) => {
-            delete(row.body)
-        })
-        return{"allArticles": rows}
-   })
-}
+          delete row.body;
+        });
+        return { allArticles: rows };
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+  
 
 exports.updateVotes = (article, voteIncrement) => {
        return db.query(`UPDATE articles SET votes = VOTES + $2 WHERE article_id = $1 RETURNING *`,[article.article_id, voteIncrement.inc_votes])

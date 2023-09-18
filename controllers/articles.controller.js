@@ -15,7 +15,7 @@ exports.getArticleComments = (req, res, next) => {
    }).catch(next)
 }
 exports.getAllArticles = (req, res, next) => {
-   fetchArticles().then((data) => {
+   fetchArticles(req.query).then((data) => {
       res.status(200).send(data.allArticles)
    })
 }
