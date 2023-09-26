@@ -10,14 +10,6 @@ const path = require('path');
 
 const app = express();
 
-// Serve your React application's HTML file for all routes
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-// });
-
-
 app.use(cors());
 
 app.use(express.json())
